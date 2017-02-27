@@ -1,0 +1,106 @@
+version: "2.1"
+services:
+
+    mongo:
+        image: mvertes/alpine-mongo
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongo:/data/db
+#        healthcheck:
+#            test: "mongo -u ${MONGO_USER} -p ${MONGO_PASSWORD} --quiet --eval 'db.version()'"
+
+    mysql:
+        build:
+            context: ./mysql-dev
+            dockerfile: Dockerfile
+        ports: 
+            - "3306:3306"
+        volumes:
+            - mysql:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: boilerroom
+            MYSQL_TESTING_DATABASE: boilerroom-testing
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#        healthcheck:
+#            test: "mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e ping"
+
+    redis:
+        image: redis:alpine
+        ports:
+            - "6379:6379"
+        volumes:
+            - redis:/data
+        command: "redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}"
+#        healthcheck:
+#          test: "redis-cli -a ${REDIS_PASSWORD} ping"
+
+    api:
+        build:
+            context: ..
+            dockerfile: docker/Dockerfile
+        links:
+            - mysql
+            - mongo
+            - redis
+#        depends_on:
+#            mysql:
+#                condition: service_healthy
+#            mongo:
+#                condition: service_healthy
+#            redis:
+#                condition: service_healthy
+        ports:
+            - "4000:4000"
+        volumes:
+            - ..:/boilerroom-server
+        env_file:
+            - .env
+        command: "modd -f docker/modd/gunicorn.conf"
+
+    celery:
+        build:
+            context: ..
+            dockerfile: docker/Dockerfile
+        links:
+            - mysql
+            - mongo
+            - redis
+#        depends_on:
+#            mysql:
+#                condition: service_healthy
+#            mongo:
+#                condition: service_healthy
+#            redis:
+#                condition: service_healthy
+        volumes:
+            - ..:/boilerroom-server
+        env_file:
+            - .env
+        command: "modd -f docker/modd/celery.conf"
+
+    flower:
+        build:
+            context: ..
+            dockerfile: docker/Dockerfile
+        depends_on:
+          - celery
+#        depends_on:
+#            celery:
+#                condition: service_started
+        links:
+            - redis
+        ports:
+            - "5555:5555"
+        volumes:
+            - ..:/boilerroom-server
+        env_file:
+            - .env
+        command: "modd -f docker/modd/flower.conf"
+
+volumes:
+    mongo:
+    mysql:
+    redis:

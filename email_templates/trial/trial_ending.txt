@@ -1,0 +1,16 @@
+{% extends "_base.txt" %}
+
+{% block template -%}
+
+Hi, {{ user.first_name }}
+-------
+
+Your trial is ending in a few days. If you want to keep using us, you don't have to do anything! Your subscription will be activated automatically when your trial ends.
+
+If you don't want to keep using us, login to unsubscribe. Reply to this email to let us know what we could have done to keep you around.
+
+
+Cheers,
+The Team
+
+{%- endblock %}

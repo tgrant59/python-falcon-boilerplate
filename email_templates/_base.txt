@@ -1,0 +1,10 @@
+{% block template %}{% endblock %}
+
+Contact Info:
+-------------
+
+SushiStream Inc.
+115 Highbourne Rd.
+Toronto, Ontario, M5P 2J5
+
+Unsubscribe ( {{ config.FRONTEND_HOST }}/#/admin/unsubscribe?user_id={{ user.id }}&email={{ user.email|urlencode }} )

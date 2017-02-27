@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+
+{% block preheader_text %}
+Verify your email address to get started!
+{% endblock %}
+
+{% block template %}
+
+  {{ macros.title("Member Care") }}
+
+  Hi {{ user.first_name }},
+  <br><br>
+  Verify your email address by clicking the button below.
+  <br><br>
+  {{ macros.button(config.FRONTEND_HOST + "/#/admin/verify?verification_token=" + verification_token, "Verify your email address") }}
+  <br><br>
+  Cheers,
+  <br>
+  The Team
+
+{% endblock %}

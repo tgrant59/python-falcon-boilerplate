@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+
+{% block preheader_text %}
+  Thanks for subscribing!
+{% endblock %}
+
+{% block template %}
+
+  {{ macros.title("Member Care") }}
+
+  Hi {{ user.first_name }},
+  <br><br>
+  Thanks for subscribing!
+  <br><br>
+  You have subscribed to our <b>{{ plan }}</b> plan. {% if trial %}Your trial will last a week. Once it's over, you{% else %}You{% endif %} will be charged ${{ "%.2f"|format(amount / 100.0) }} {% if interval == "year" %}annually{% elif interval == "month" %}monthly{% endif %}.
+  <br><br>
+  Cheers,
+  <br>
+  The Team
+
+{% endblock %}

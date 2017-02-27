@@ -1,0 +1,12 @@
+{% extends "_base.txt" %}
+{% block template -%}
+
+User Feedback
+
+{{ feedback }}
+
+-----------------
+{{ feedback_user.first_name }} {{ feedback_user.last_name }}
+{{ feedback_user.email }}
+
+{%- endblock %}

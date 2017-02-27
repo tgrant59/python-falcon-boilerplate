@@ -1,0 +1,32 @@
+{% extends "_base.txt" %}
+
+{% block template -%}
+
+Hi, {{ user.first_name }}
+-------
+
+Uh oh, We attempted a payment on your credit card, but it failed!
+{% if card.brand %}
+    Card on file: {{ card.brand }} - Exp: {{ card.exp_month }}/{{ card.exp_year }} - Last digits: {{ card.last4 }}
+    {% if card.expired %}
+        Your card has expired!
+    {% endif %}
+{% endif %}
+
+{% if num_attemtps == 1 %}
+    Please update your payment method immediately! If you do not update your payment method within 9 days, we will have to deactivate your subscription and delete your videos. We'll retry again in 1 day.
+{% elif num_attempts == 2 %}
+    Please update your payment method immediately! If you do not update your payment method within 8 days, we will have to deactivate your subscription and delete your videos. We'll retry again in 3 days.
+{% elif num_attempts == 3 %}
+    Please update your payment method immediately! If you do not update your payment method within 5 days, we will have to deactivate your subscription and delete your videos. We'll retry again in 5 days.
+{% endif %}
+If you do not plan on updating your payment method, login and officially unsubscribe to stop receiving these emails.
+
+Update your payment method at the link below
+
+{{ config.FRONTEND_HOST }}/#/account/subscription
+
+Cheers,
+The Team
+
+{%- endblock %}

@@ -1,0 +1,16 @@
+{% extends "_base.txt" %}
+
+{% block template -%}
+
+Hi, {{ user.first_name }}
+-------
+
+Your subscription will end in 3 days. The good news is it's not too late to resume your subscription!
+Click the link below to resume your subscription!
+
+{{ config.FRONTEND_HOST }}/#/account/subscription
+
+Cheers,
+The Team
+
+{%- endblock %}

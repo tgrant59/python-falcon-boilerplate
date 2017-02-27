@@ -1,0 +1,16 @@
+{% extends "_base.txt" %}
+
+{% block template -%}
+
+Hi, {{ user.first_name }}
+-------
+
+Thanks for subscribing!
+
+You have subscribed to our {{ plan }} plan. {% if trial %}Your trial will last a week. Once it's over, you{% else %}You{% endif %} will be charged ${{ "%.2f"|format(amount / 100.0) }} {% if interval == "year" %}annually{% elif interval == "month" %}monthly{% endif %}.
+
+
+Cheers,
+The Team
+
+{%- endblock %}

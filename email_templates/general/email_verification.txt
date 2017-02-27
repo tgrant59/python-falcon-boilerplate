@@ -1,0 +1,14 @@
+{% extends "_base.txt" %}
+{% block template -%}
+
+Hi, {{ user.first_name }}
+-------
+
+Verify your email by clicking the link below.
+
+{{ config.FRONTEND_HOST }}/#/admin/verify?verification_token={{ verification_token }}
+
+Cheers,
+The Team
+
+{%- endblock %}

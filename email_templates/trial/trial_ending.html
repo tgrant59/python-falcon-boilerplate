@@ -1,0 +1,23 @@
+{% extends "_base.html" %}
+
+{% block preheader_text %}
+  Your subscription will be activated soon!
+{% endblock %}
+
+{% block template %}
+
+  {{ macros.title("Member Care") }}
+
+  Hi {{ user.first_name }},
+  <br><br>
+  Your trial is ending in a few days. If you want to keep using us, you don't have to do anything!
+  Your subscription will be activated automatically when your trial ends.
+  <br><br>
+  If you don't want to keep using us, login to unsubscribe.
+  Reply to this email to let us know what we could have done to keep you around.
+  <br><br>
+  Cheers,
+  <br>
+  The Team
+
+{% endblock %}

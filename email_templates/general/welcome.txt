@@ -1,0 +1,16 @@
+{% extends "_base.txt" %}
+{% block template -%}
+
+Hi, {{ user.first_name }}
+-------
+
+Thank you and welcome!
+
+Verify your email by clicking the link below.
+
+{{ config.FRONTEND_HOST }}/#/admin/verify?verification_token={{ verification_token }}
+
+Cheers,
+The SushiStream Team
+
+{%- endblock %}

@@ -1,0 +1,18 @@
+{% macro title(text) -%}
+  <div class="title" style="font-family:Helvetica, Arial, sans-serif;font-size:20px;font-weight:300;color:#374550">{{ text }}</div>
+  <br>
+{%- endmacro %}
+
+{% macro button(link, text) -%}
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+    <tr>
+      <td align="center" style="padding: 25px 0 0 0;" class="padding-copy">
+        <table border="0" cellspacing="0" cellpadding="0" class="responsive-table">
+          <tr>
+            <td align="center"><a href="{{ link }}" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; background-color: #F2711C; border-top: 15px solid #F2711C; border-bottom: 15px solid #F2711C; border-left: 25px solid #F2711C; border-right: 25px solid #F2711C; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; display: inline-block;" class="mobile-button">{{ text }}</a></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+{%- endmacro %}

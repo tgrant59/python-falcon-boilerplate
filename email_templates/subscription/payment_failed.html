@@ -1,0 +1,43 @@
+{% extends "_base.html" %}
+
+{% block preheader_text %}
+  A payment failed. You account status could be in danger if you do not update your payment information.
+{% endblock %}
+
+{% block template %}
+
+  {{ macros.title("Billing") }}
+
+  Hi {{ user.first_name }},
+  <br><br>
+  Uh oh, We attempted a payment on your credit card, but it failed!
+  <br><br>
+  {% if card.brand %}
+    Card on file: <b>{{ card.brand }}</b> - Exp: <b>{{ card.exp_month }}/{{ card.exp_year }}</b> - Last digits: <b>{{ card.last4 }}</b>
+    <br>
+    {% if card.expired %}
+      <p style="color: darkred">Your card has expired!</p>
+      <br>
+    {% endif %}
+    <br>
+  {% endif %}
+  {% if num_attemtps == 1 %}
+    Please update your payment method immediately! If you do not update your payment method within <b>9 days</b>,
+    we will have to deactivate your subscription and delete your videos. We'll retry again in 1 day.
+  {% elif num_attempts == 2 %}
+    Please update your payment method immediately! If you do not update your payment method within <b>8 days</b>,
+    we will have to deactivate your subscription and delete your videos. We'll retry again in 3 days.
+  {% elif num_attempts == 3 %}
+    Please update your payment method immediately! If you do not update your payment method within <b>5 days</b>,
+    we will have to deactivate your subscription and delete your videos. We'll retry again in 5 days.
+  {% endif %}
+  <br><br>
+  If you do not plan on updating your payment method, login and officially unsubscribe to stop receiving these emails.
+  <br><br>
+  {{ macros.button(config.FRONTEND_HOST + "/#/account/subscription", "Update Your Payment Method") }}
+  <br><br>
+  Cheers,
+  <br>
+  The Team
+
+{% endblock %}

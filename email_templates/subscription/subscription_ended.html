@@ -1,0 +1,24 @@
+{% extends "_base.html" %}
+
+{% block preheader_text %}
+  We want to thank you for using us, Let us know what we could have done to better serve you.
+{% endblock %}
+
+{% block template %}
+
+  {{ macros.title("Member Care") }}
+
+  Hi {{ user.first_name }},
+  <br><br>
+  We're sorry to notify you that your subscription has officially ended.
+  <br><br>
+  Let us know what we could have done to keep you as a customer! Simply reply to this email to give us some feedback.
+  We're constantly trying to improve our service to you and other customers, so please help us get better.
+  <br><br>
+  Thanks so much for using us, we'll miss you!
+  <br><br>
+  Cheers,
+  <br>
+  The Team
+
+{% endblock %}

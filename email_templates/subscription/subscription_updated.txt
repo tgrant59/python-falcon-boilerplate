@@ -1,0 +1,14 @@
+{% extends "_base.txt" %}
+
+{% block template -%}
+
+Hi, {{ user.first_name }}
+-------
+
+Your subscription has been updated to our {{ plan }} plan. You will be charged ${{ "%.2f"|format(amount / 100.0) }} {% if interval == "year" %}annually{% elif interval == "month" %}monthly{% endif %}.
+
+
+Cheers,
+The Team
+
+{%- endblock %}

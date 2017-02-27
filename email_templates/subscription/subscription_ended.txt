@@ -1,0 +1,18 @@
+{% extends "_base.txt" %}
+
+{% block template -%}
+
+Hi, {{ user.first_name }}
+-------
+
+We're sorry to notify you that your subscription has officially ended.
+
+Let us know what we could have done to keep you as a customer! Simply reply to this email to give us some feedback. We're constantly trying to improve our service to you and other customers, so please help us get better.
+
+Thanks so much for using us, we'll miss you!
+
+
+Cheers,
+The Team
+
+{%- endblock %}

@@ -1,0 +1,22 @@
+{% extends "_base.html" %}
+
+{% block preheader_text %}
+  Your videos will be deleted very soon. Last chance to resume your subscription and keep your videos.
+{% endblock %}
+
+{% block template %}
+
+  {{ macros.title("Member Care") }}
+
+  Hi {{ user.first_name }},
+  <br><br>
+  Your subscription will end in 3 days. The good news is it's not too late to resume your subscription!
+  Click the button below to resume your subscription!
+  <br><br>
+  {{ macros.button(config.FRONTEND_HOST + "/#/account/subscription", "Resume your Subscription") }}
+  <br><br>
+  Cheers,
+  <br>
+  The Team
+
+{% endblock %}

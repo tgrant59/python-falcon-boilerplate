@@ -1,0 +1,16 @@
+# OSX System file
+.DS_Store
+
+# PyCharm project configuration file
+.idea
+
+# Virtual Environment and Python runtime files
+venv/
+*.pyc
+
+# pytest cache
+.cache/
+tests/.cache
+
+# Sandbox Script for playing around
+scripts/sandbox.py
