@@ -1,7 +1,5 @@
-import traceback
 import falcon
 from app.db import DB
-from app.async import mailer
 from app.utils import config, errors, helpers, reporting
 
 
@@ -35,7 +33,7 @@ class SerializeResponseToJSON(object):
             data = "{}"
         else:
             raise errors.ReturnTypeError(str(data_type))
-        resp.data = ")]}',\n" + data
+        resp.data = data
 
 
 class ErrorContext(object):
@@ -47,7 +45,8 @@ class ErrorContext(object):
         reporting.clear_context()
 
 
-def email_on_error(ex, req, resp, params):
-    if not issubclass(ex.__class__, falcon.HTTPError) or isinstance(ex, errors.ServerError):
-        mailer.error.delay(traceback.format_exc())
+def report_exception(ex, req, resp, params):
+    if not issubclass(ex.__class__, falcon.HTTPError):
+        reporting.capture_error()
+        raise errors.ServerError
     raise

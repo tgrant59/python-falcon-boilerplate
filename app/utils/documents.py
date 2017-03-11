@@ -2,11 +2,12 @@ import pymongo
 from bson.objectid import ObjectId
 from app.utils import config, constants
 
-MONGO_CLIENT = pymongo.MongoClient("mongodb://{user}:{password}@{host}:{port}".format(
+MONGO_CLIENT = pymongo.MongoClient("mongodb://{user}:{password}@{host}:{port}/?authSource={authSource}".format(
     user=config.MONGO_USER,
     password=config.MONGO_PASSWORD,
     host=config.MONGO_HOST,
-    port=config.MONGO_PORT
+    port=config.MONGO_PORT,
+    authSource=config.MONGO_AUTH_DB
 ))
 MDB = MONGO_CLIENT[config.MONGO_DB]
 

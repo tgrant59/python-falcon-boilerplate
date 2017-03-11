@@ -19,7 +19,6 @@ AUTH_COOKIE_PATH = '/'
 AUTH_COOKIE_HTTP_ONLY = False
 AUTH_COOKIE_SECURE = False
 
-
 # ========== Headers config ============
 # --- Headers in the form of (name, value) tuples ---
 RESPONSE_HEADERS = [
@@ -50,14 +49,14 @@ AWS_REGION = 'us-east-1'
 # =========== Redis config ==========
 REDIS_HOST = 'redis'
 REDIS_PORT = 6379
-REDIS_DB = 0
+REDIS_DB = os.environ['REDIS_DB']
 REDIS_PASSWORD = os.environ['REDIS_PASSWORD']
 REDIS_URI = 'redis://:{password}@{host}:{port}/{db}'.format(
     password=REDIS_PASSWORD, host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB
 )
 
 # ========== MySQL config ===========
-MYSQL_DB_NAME = 'gretzky'
+MYSQL_DB_NAME = os.environ['MYSQL_DB']
 MYSQL_HOST = 'mysql'
 MYSQL_PORT = 3306
 MYSQL_SSL = None
@@ -72,15 +71,15 @@ PEEWEE_LOGGING = False
 # ========= MongoDB config ==========
 MONGO_HOST = 'mongo'
 MONGO_PORT = 27017
-MONGO_DB = 'gretzky'
+MONGO_DB = os.environ["MONGO_DB"]
 MONGO_USER = os.environ['MONGO_USER']
 MONGO_PASSWORD = os.environ['MONGO_PASSWORD']
+MONGO_AUTH_DB = 'admin'
 
 # ========= Sentry.io config =========
 SENTRY_DNS = os.environ['SENTRY_DNS']
 
 # ========= Celery config ==========
-
 CELERY_CONFIG = {
     'broker_url': REDIS_URI,
     'result_backend': REDIS_URI,

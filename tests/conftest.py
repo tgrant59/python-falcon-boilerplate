@@ -1,12 +1,11 @@
+import os
+import sys
 import pytest
 import redis
 from peewee import MySQLDatabase
+sys.path.insert(0, os.path.abspath('.'))
 from app import db
 from app.utils import cache, config, documents
-
-MONGO_TEST_DB_NAME = "gretzky-testing"
-MYSQL_TEST_DB_NAME = "gretzky-testing"
-REDIS_TEST_DB = 2
 
 
 @pytest.fixture(autouse=True)
@@ -18,24 +17,24 @@ def setup_task(celery_worker):
     # Clear Redis
     cache.RDB.flushdb()
     # Drop MongoDB
-    documents.MONGO_CLIENT.drop_database(MONGO_TEST_DB_NAME)
+    documents.MONGO_CLIENT.drop_database(os.environ["MONGO_TEST_DB"])
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope='session')
 def setup_pytest():
     # Monkeypatching MySQL, MongoDB and Redis to use testing databases
-    db.DB = MySQLDatabase(MYSQL_TEST_DB_NAME,
+    db.DB = MySQLDatabase(os.environ["MYSQL_TEST_DB"],
                           host=config.MYSQL_HOST,
                           port=config.MYSQL_PORT,
-                          user=config.MYSQL_USER,
-                          passwd=config.MYSQL_PASSWORD,
+                          user=os.environ["MYSQL_TEST_USER"],
+                          passwd=os.environ["MYSQL_TEST_PASSWORD"],
                           ssl=config.MYSQL_SSL)
     for model in db.DB_TABLES:
         model.create_table()
-    documents.MDB = documents.MONGO_CLIENT[MONGO_TEST_DB_NAME]
-    cache.RDB = redis.Redis(host=config.REDIS_HOST, port=config.REDIS_PORT, db=REDIS_TEST_DB)
+    documents.MDB = documents.MONGO_CLIENT[os.environ["MONGO_TEST_DB"]]
+    cache.RDB = redis.Redis(host=config.REDIS_HOST, port=config.REDIS_PORT, db=os.environ["REDIS_TEST_DB"])
     yield
     # Dropping or flushing testing databases
     cache.RDB.flushdb()
-    documents.MONGO_CLIENT.drop_database(MONGO_TEST_DB_NAME)
+    documents.MONGO_CLIENT.drop_database(os.environ["MONGO_TEST_DB"])
     db.DB.drop_tables(db.DB_TABLES, safe=True)

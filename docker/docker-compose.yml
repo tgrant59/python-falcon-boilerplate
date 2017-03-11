@@ -1,4 +1,4 @@
-version: "2.1"
+version: "3"
 services:
 
     mongo:
@@ -7,13 +7,12 @@ services:
             - "27017:27017"
         volumes:
             - mongo:/data/db
-#        healthcheck:
-#            test: "mongo -u ${MONGO_USER} -p ${MONGO_PASSWORD} --quiet --eval 'db.version()'"
+        environment:
+            MONGODB_PASS: password
+        command: "mongod --auth"
 
     mysql:
-        build:
-            context: ./mysql-dev
-            dockerfile: Dockerfile
+        image: k0st/alpine-mariadb
         ports: 
             - "3306:3306"
         volumes:
@@ -21,11 +20,8 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: password
             MYSQL_DATABASE: boilerroom
-            MYSQL_TESTING_DATABASE: boilerroom-testing
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-#        healthcheck:
-#            test: "mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e ping"
 
     redis:
         image: redis:alpine
@@ -34,8 +30,6 @@ services:
         volumes:
             - redis:/data
         command: "redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}"
-#        healthcheck:
-#          test: "redis-cli -a ${REDIS_PASSWORD} ping"
 
     api:
         build:
@@ -45,13 +39,6 @@ services:
             - mysql
             - mongo
             - redis
-#        depends_on:
-#            mysql:
-#                condition: service_healthy
-#            mongo:
-#                condition: service_healthy
-#            redis:
-#                condition: service_healthy
         ports:
             - "4000:4000"
         volumes:
@@ -68,13 +55,6 @@ services:
             - mysql
             - mongo
             - redis
-#        depends_on:
-#            mysql:
-#                condition: service_healthy
-#            mongo:
-#                condition: service_healthy
-#            redis:
-#                condition: service_healthy
         volumes:
             - ..:/boilerroom-server
         env_file:
@@ -87,9 +67,6 @@ services:
             dockerfile: docker/Dockerfile
         depends_on:
           - celery
-#        depends_on:
-#            celery:
-#                condition: service_started
         links:
             - redis
         ports:

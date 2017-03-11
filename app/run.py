@@ -6,11 +6,12 @@ from app.utils import config
 falcon_app = falcon.API(middleware=[
     middleware.Headers(),
     middleware.DBConnect(),
-    middleware.SerializeResponseToJSON()
+    middleware.SerializeResponseToJSON(),
+    middleware.ErrorContext()
 ])
 
 # Error handling
-falcon_app.add_error_handler(Exception, middleware.email_on_error)
+falcon_app.add_error_handler(Exception, middleware.report_exception)
 
 # Routes
 for endpoint in endpoints.Endpoint.__subclasses__():
